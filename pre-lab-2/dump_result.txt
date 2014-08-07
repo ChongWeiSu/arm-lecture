@@ -1,0 +1,147 @@
+
+atomic.o:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <lock_mutex>:
+   0:	b480      	push	{r7}
+   2:	b085      	sub	sp, #20
+   4:	af00      	add	r7, sp, #0
+   6:	6078      	str	r0, [r7, #4]
+   8:	e004      	b.n	14 <lock_mutex+0x14>
+   a:	2300      	movs	r3, #0
+   c:	60fb      	str	r3, [r7, #12]
+   e:	68fb      	ldr	r3, [r7, #12]
+  10:	3301      	adds	r3, #1
+  12:	60fb      	str	r3, [r7, #12]
+  14:	f240 0300 	movw	r3, #0
+  18:	f2c0 0300 	movt	r3, #0
+  1c:	681b      	ldr	r3, [r3, #0]
+  1e:	2b00      	cmp	r3, #0
+  20:	d1f3      	bne.n	a <lock_mutex+0xa>
+  22:	f240 0300 	movw	r3, #0
+  26:	f2c0 0300 	movt	r3, #0
+  2a:	2201      	movs	r2, #1
+  2c:	601a      	str	r2, [r3, #0]
+  2e:	3714      	adds	r7, #20
+  30:	46bd      	mov	sp, r7
+  32:	f85d 7b04 	ldr.w	r7, [sp], #4
+  36:	4770      	bx	lr
+
+00000038 <unlock_mutex>:
+  38:	b480      	push	{r7}
+  3a:	b083      	sub	sp, #12
+  3c:	af00      	add	r7, sp, #0
+  3e:	6078      	str	r0, [r7, #4]
+  40:	f240 0300 	movw	r3, #0
+  44:	f2c0 0300 	movt	r3, #0
+  48:	2200      	movs	r2, #0
+  4a:	601a      	str	r2, [r3, #0]
+  4c:	370c      	adds	r7, #12
+  4e:	46bd      	mov	sp, r7
+  50:	f85d 7b04 	ldr.w	r7, [sp], #4
+  54:	4770      	bx	lr
+  56:	bf00      	nop
+
+00000058 <doSomeThing>:
+  58:	b580      	push	{r7, lr}
+  5a:	b084      	sub	sp, #16
+  5c:	af00      	add	r7, sp, #0
+  5e:	6078      	str	r0, [r7, #4]
+  60:	f240 0000 	movw	r0, #0
+  64:	f2c0 0000 	movt	r0, #0
+  68:	f7ff fffe 	bl	0 <lock_mutex>
+  6c:	2300      	movs	r3, #0
+  6e:	60fb      	str	r3, [r7, #12]
+  70:	f240 0300 	movw	r3, #0
+  74:	f2c0 0300 	movt	r3, #0
+  78:	681b      	ldr	r3, [r3, #0]
+  7a:	1c5a      	adds	r2, r3, #1
+  7c:	f240 0300 	movw	r3, #0
+  80:	f2c0 0300 	movt	r3, #0
+  84:	601a      	str	r2, [r3, #0]
+  86:	f240 0300 	movw	r3, #0
+  8a:	f2c0 0300 	movt	r3, #0
+  8e:	681b      	ldr	r3, [r3, #0]
+  90:	f240 0000 	movw	r0, #0
+  94:	f2c0 0000 	movt	r0, #0
+  98:	4619      	mov	r1, r3
+  9a:	f7ff fffe 	bl	0 <printf>
+  9e:	2300      	movs	r3, #0
+  a0:	60fb      	str	r3, [r7, #12]
+  a2:	e002      	b.n	aa <doSomeThing+0x52>
+  a4:	68fb      	ldr	r3, [r7, #12]
+  a6:	3301      	adds	r3, #1
+  a8:	60fb      	str	r3, [r7, #12]
+  aa:	68fb      	ldr	r3, [r7, #12]
+  ac:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+  b0:	d1f8      	bne.n	fffffff8 <main+0xffffff18>
+  b2:	f240 0300 	movw	r3, #0
+  b6:	f2c0 0300 	movt	r3, #0
+  ba:	681b      	ldr	r3, [r3, #0]
+  bc:	f240 0000 	movw	r0, #0
+  c0:	f2c0 0000 	movt	r0, #0
+  c4:	4619      	mov	r1, r3
+  c6:	f7ff fffe 	bl	0 <printf>
+  ca:	f240 0000 	movw	r0, #0
+  ce:	f2c0 0000 	movt	r0, #0
+  d2:	f7ff fffe 	bl	38 <unlock_mutex>
+  d6:	2300      	movs	r3, #0
+  d8:	4618      	mov	r0, r3
+  da:	3710      	adds	r7, #16
+  dc:	46bd      	mov	sp, r7
+  de:	bd80      	pop	{r7, pc}
+
+000000e0 <main>:
+  e0:	b580      	push	{r7, lr}
+  e2:	b082      	sub	sp, #8
+  e4:	af00      	add	r7, sp, #0
+  e6:	2300      	movs	r3, #0
+  e8:	603b      	str	r3, [r7, #0]
+  ea:	e021      	b.n	130 <main+0x50>
+  ec:	683b      	ldr	r3, [r7, #0]
+  ee:	009a      	lsls	r2, r3, #2
+  f0:	f240 0300 	movw	r3, #0
+  f4:	f2c0 0300 	movt	r3, #0
+  f8:	4413      	add	r3, r2
+  fa:	4618      	mov	r0, r3
+  fc:	2100      	movs	r1, #0
+  fe:	f240 0200 	movw	r2, #0
+ 102:	f2c0 0200 	movt	r2, #0
+ 106:	2300      	movs	r3, #0
+ 108:	f7ff fffe 	bl	0 <pthread_create>
+ 10c:	6078      	str	r0, [r7, #4]
+ 10e:	687b      	ldr	r3, [r7, #4]
+ 110:	2b00      	cmp	r3, #0
+ 112:	d00a      	beq.n	12a <main+0x4a>
+ 114:	6878      	ldr	r0, [r7, #4]
+ 116:	f7ff fffe 	bl	0 <strerror>
+ 11a:	4603      	mov	r3, r0
+ 11c:	f240 0000 	movw	r0, #0
+ 120:	f2c0 0000 	movt	r0, #0
+ 124:	4619      	mov	r1, r3
+ 126:	f7ff fffe 	bl	0 <printf>
+ 12a:	683b      	ldr	r3, [r7, #0]
+ 12c:	3301      	adds	r3, #1
+ 12e:	603b      	str	r3, [r7, #0]
+ 130:	683b      	ldr	r3, [r7, #0]
+ 132:	2b01      	cmp	r3, #1
+ 134:	ddda      	ble.n	ec <main+0xc>
+ 136:	f240 0300 	movw	r3, #0
+ 13a:	f2c0 0300 	movt	r3, #0
+ 13e:	681b      	ldr	r3, [r3, #0]
+ 140:	4618      	mov	r0, r3
+ 142:	2100      	movs	r1, #0
+ 144:	f7ff fffe 	bl	0 <pthread_join>
+ 148:	f240 0300 	movw	r3, #0
+ 14c:	f2c0 0300 	movt	r3, #0
+ 150:	685b      	ldr	r3, [r3, #4]
+ 152:	4618      	mov	r0, r3
+ 154:	2100      	movs	r1, #0
+ 156:	f7ff fffe 	bl	0 <pthread_join>
+ 15a:	2300      	movs	r3, #0
+ 15c:	4618      	mov	r0, r3
+ 15e:	3708      	adds	r7, #8
+ 160:	46bd      	mov	sp, r7
+ 162:	bd80      	pop	{r7, pc}
